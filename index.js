@@ -3,9 +3,10 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
 const { adminProtected, employeeProtected } = require("./middlewares/protected.middleware")
+const { app, httpServer } = require("./socket/socket.server")
 require("dotenv").config()
 
-const app = express()
+// const app = express()
 app.use(express.json()) // req.body
 app.use(cookieParser()) // req.cookies
 app.use(cors({
@@ -30,5 +31,5 @@ app.use((err, req, res, next) => {
 mongoose.connect(process.env.MONGO_URL)
 mongoose.connection.once("open", () => {
     console.log("mongo connected")
-    app.listen(process.env.PORT, console.log("server running"))
+    httpServer.listen(process.env.PORT, console.log("server running"))
 })
